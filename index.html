@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="锻造台 FORGEPAD（$FORGE）— BNB Chain 上的社区建设代币。">
+<link rel="icon" type="image/png" href="assets/forgepad-logo-400.png">
+<title>锻造台 FORGEPAD</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Doto:wght@700;900&family=ZCOOL+QingKe+HuangYou&display=swap">
+<style>
+/* Layout: dark dot-grid scroll story — sticky split panels (text left, pixel canvas right), one gold band, mixed-surface treasury grid */
+:root{
+  --ink:#0B0E11;      /* page black */
+  --coal:#181A20;     /* raised surface */
+  --slate:#2B3139;    /* grey surface / lines */
+  --ash:#848E9C;      /* muted text */
+  --bone:#EAECEF;     /* main text */
+  --white:#FFFFFF;
+  --gold:#F0B90B;     /* accent */
+  --gold-deep:#C99400;
+  --gold-soft:#FCD535;
+  --line:rgba(234,236,239,.12);
+  --f-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-brand:"ZCOOL QingKe HuangYou","Noto Sans SC",system-ui,sans-serif;
+  --f-dot:"Doto",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --f-mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--bone);font-family:var(--f-body);font-size:16px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+.dots{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(1200px 700px at 78% 18%, rgba(240,185,11,.10), transparent 60%),
+    radial-gradient(900px 600px at 10% 85%, rgba(132,142,156,.10), transparent 60%),
+    radial-gradient(rgba(234,236,239,.075) 1px, transparent 1.3px) 0 0/6px 6px;
+}
+main,header,footer{position:relative;z-index:1}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+h1,h2,h3{margin:0;font-weight:900;letter-spacing:-.02em;line-height:1.12;text-wrap:balance}
+p{margin:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:8px}
+
+/* ---------- header ---------- */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:linear-gradient(var(--ink),rgba(11,14,17,.85));backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.brand canvas{width:40px;height:40px;border-radius:10px;background:var(--gold);display:block;flex:none}
+.brand b{font-family:var(--f-brand);font-weight:400;font-size:22px;letter-spacing:.02em;white-space:nowrap}
+.brand small{font:700 11px/1 var(--f-mono);color:var(--gold);letter-spacing:.08em;margin-left:2px}
+.pillnav{display:flex;gap:2px;padding:4px;border:1px solid var(--line);border-radius:999px;background:rgba(24,26,32,.8)}
+.pillnav a{padding:7px 16px;border-radius:999px;font-size:14px;font-weight:500;color:var(--ash);text-decoration:none;transition:.2s}
+.pillnav a:hover{color:var(--bone)}
+.pillnav a.on{background:var(--bone);color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+.ibtn{height:36px;min-width:36px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:var(--coal);color:var(--bone);font:700 12px/1 var(--f-body);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+.ibtn:hover{border-color:var(--gold);color:var(--gold)}
+.ibtn kbd{font:600 11px/1 var(--f-mono);padding:3px 6px;border-radius:6px;background:var(--slate);color:var(--ash)}
+
+/* ---------- hero ---------- */
+.hero{padding-block:72px 40px}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:32px}
+.eyebrow{display:inline-flex;gap:10px;align-items:center;font:700 12px/1 var(--f-mono);letter-spacing:.14em;color:var(--gold);text-transform:uppercase;margin-bottom:22px}
+.eyebrow i{width:8px;height:8px;background:var(--gold);display:inline-block}
+.hero h1{font-size:clamp(40px,6.4vw,78px)}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.lede{margin-top:22px;max-width:34em;color:#B7BDC6;font-size:17px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 22px;border-radius:999px;font:700 15px/1 var(--f-body);text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.gold{background:var(--gold);color:var(--ink)}
+.btn.ghost{background:var(--coal);color:var(--bone);border-color:var(--line)}
+.btn.white{background:var(--white);color:var(--ink)}
+.mascot{position:relative;justify-self:center;width:min(100%,460px)}
+.mascot canvas{width:100%;aspect-ratio:1/1;display:block;max-width:100%}
+.mascot figcaption{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);display:flex;gap:8px;align-items:center;white-space:nowrap;font:600 12px/1 var(--f-mono);color:var(--ash);padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(11,14,17,.75)}
+.pulse{width:8px;height:8px;border-radius:2px;background:var(--gold);animation:pulse 1.4s steps(2) infinite}
+@keyframes pulse{50%{opacity:.25}}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);margin-top:56px}
+.stat{padding:22px 20px 6px 0;border-right:1px solid var(--line);min-width:0}
+.stat+.stat{padding-left:20px}
+.stat:last-child{border-right:0}
+.num{font-family:var(--f-dot);font-weight:900;font-size:clamp(26px,3.2vw,40px);line-height:1;color:var(--bone);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.num.g{color:var(--gold)}
+.lbl{margin-top:8px;font-size:13px;color:var(--ash)}
+
+/* ---------- scroll story ---------- */
+.scrolly{height:230vh;position:relative}
+.sticky{position:sticky;top:64px;height:calc(100vh - 64px);display:flex;align-items:center}
+.sticky>.rulewrap{position:absolute;left:0;right:0;bottom:0}
+.split{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:center;width:100%}
+.split.rev{grid-template-columns:1.15fr 1fr}
+.copy{min-width:0}
+.copy h2{font-size:clamp(30px,4vw,48px);margin-bottom:22px}
+.copy p{font-size:17px;max-width:30em;margin-top:14px;transition:opacity .5s,filter .5s,color .5s}
+.copy p.dim{opacity:.32;filter:blur(2.5px)}
+.rule{position:relative;height:1px;background:var(--line);margin-top:0}
+.rule i{position:absolute;left:0;top:0;height:1px;width:0;background:var(--bone)}
+
+.matrix{min-width:0;position:relative;padding:22px 18px 18px}
+.matrix .corner{position:absolute;width:10px;height:10px;border-color:var(--ash);border-style:solid}
+.c1{left:0;top:0;border-width:1px 0 0 1px}.c2{right:0;top:0;border-width:1px 1px 0 0}
+.c3{left:0;bottom:46px;border-width:0 0 1px 1px}.c4{right:0;bottom:46px;border-width:0 1px 1px 0}
+.hexrows{font-family:var(--f-dot);font-weight:900;font-size:clamp(26px,4.6vw,58px);line-height:1.12;letter-spacing:.06em;user-select:none;white-space:nowrap;overflow:hidden}
+.hexrows .pre{color:var(--gold)}
+.hexrows span{color:rgba(132,142,156,.35);transition:color .25s}
+.hexrows span.lock{color:var(--bone)}
+.hexrows span.lock.au{color:var(--gold)}
+.meter{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:16px}
+.segs{display:flex;gap:3px;flex:1;max-width:300px}
+.segs b{flex:1;height:16px;background:var(--slate)}
+.segs b.on{background:var(--bone)}
+.meter .num{font-size:28px;color:var(--ash)}
+.cap{font:600 12px/1.4 var(--f-mono);color:var(--ash);letter-spacing:.06em;margin-bottom:12px}
+
+/* gold band */
+.band{background:var(--gold);color:var(--ink);position:relative;overflow:hidden}
+.band::before{content:"";position:absolute;inset:0;background:radial-gradient(rgba(11,14,17,.12) 1px,transparent 1.3px) 0 0/6px 6px;pointer-events:none}
+.band .inner{padding-block:110px;position:relative}
+.band .copy p{color:#2a2410}
+.band .copy p.dim{opacity:.4}
+.band .cap{color:#5c4a00}
+.band canvas{width:100%;aspect-ratio:5/4;display:block;max-width:100%}
+.chip{display:inline-block;font:700 11px/1 var(--f-mono);letter-spacing:.1em;padding:6px 9px;border-radius:6px;background:var(--ink);color:var(--gold);margin-bottom:18px}
+
+.field{position:relative;min-width:0}
+.field canvas{width:100%;aspect-ratio:1/0.9;display:block;max-width:100%}
+.fieldmeta{display:flex;justify-content:space-between;font:600 12px/1 var(--f-mono);color:var(--ash);margin-top:12px}
+.fieldmeta b{color:var(--gold);font-weight:700}
+
+/* lab */
+section.block{padding-block:110px}
+.head h2{font-size:clamp(30px,4vw,48px)}
+.head p{color:#B7BDC6;margin-top:14px;max-width:36em;font-size:17px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(43,49,57,.55),rgba(24,26,32,.7));padding:18px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.card canvas{width:100%;aspect-ratio:16/10;display:block;border-radius:10px;background:rgba(11,14,17,.6);margin-bottom:10px}
+.card h3{font-size:18px;letter-spacing:0}
+.card .v{color:var(--bone);font-size:14px}
+.card .meta{display:flex;justify-content:space-between;margin-top:auto;padding-top:14px;border-top:1px dashed var(--line);font:600 12px/1 var(--f-mono);color:var(--ash)}
+.tag{font:700 10px/1 var(--f-mono);padding:4px 6px;border-radius:5px;border:1px solid var(--gold-deep);color:var(--gold);margin-left:8px;vertical-align:3px;letter-spacing:.08em}
+
+/* draws */
+.drawgrid{display:grid;grid-template-columns:.9fr 1.3fr;gap:48px;margin-top:10px;align-items:center}
+.steps{display:flex;flex-direction:column;margin-top:24px}
+.step{display:grid;grid-template-columns:76px 1fr;gap:14px;padding:16px 0;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ash);text-align:left;font:inherit;cursor:pointer;position:relative}
+.step b{color:var(--ash);font-weight:700}
+.step.on b{color:var(--bone)}
+.step.on{color:var(--bone)}
+.step i{position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--gold)}
+.step.on i{animation:fill 3.2s linear forwards}
+@keyframes fill{to{width:100%}}
+.visual canvas{width:100%;aspect-ratio:2/1;display:block;max-width:100%}
+.note{margin-top:22px;font:600 13px/1.6 var(--f-mono);color:var(--ash)}
+.note b{color:var(--gold)}
+
+/* treasury */
+.tgrid{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-auto-rows:minmax(170px,auto);gap:14px;margin-top:40px}
+.tcard{border-radius:20px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-width:0;border:1px solid var(--line)}
+.tcard .k{font:700 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
+.tcard .big{font-family:var(--f-dot);font-weight:900;font-size:clamp(24px,2.6vw,34px);line-height:1.1;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.tcard .s{font-size:13px}
+.t-token{grid-row:span 2;background:var(--gold);color:var(--ink);border-color:transparent;position:relative;overflow:hidden}
+.t-token .k{color:#5c4a00}
+.t-token .tick{font-family:var(--f-brand);font-size:clamp(52px,6vw,84px);line-height:1}
+.t-token dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0;font-size:14px}
+.t-token dt{color:#5c4a00}.t-token dd{margin:0;font-weight:700}
+.t-token canvas{position:absolute;right:14px;bottom:14px;width:110px;height:110px}
+.t-dark{background:var(--coal)}.t-dark .k,.t-dark .s{color:var(--ash)}
+.t-slate{background:var(--slate)}.t-slate .k,.t-slate .s{color:#B7BDC6}
+.t-white{background:var(--bone);color:var(--ink);border-color:transparent}.t-white .k,.t-white .s{color:#474D57}
+.t-line{background:transparent;border:1px dashed var(--ash)}.t-line .k,.t-line .s{color:var(--ash)}
+.dotlive{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ash);margin-right:6px;vertical-align:1px}
+
+/* verify */
+.verify{border-top:1px solid var(--line)}
+.vgrid{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start}
+.vgrid h2{font-size:clamp(34px,5vw,60px)}
+.vgrid .lede{margin-top:18px}
+.console{border:1px solid var(--line);border-radius:18px;background:#07090B;overflow:hidden;min-width:0}
+.console .ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:14px;border-bottom:1px solid var(--line);background:var(--coal)}
+.console label{font:600 12px/1 var(--f-mono);color:var(--ash)}
+.console select{height:36px;border-radius:10px;border:1px solid var(--line);background:var(--ink);color:var(--bone);padding:0 10px;font:600 14px var(--f-mono)}
+.console .run{height:36px;padding:0 16px;border-radius:999px;background:var(--gold);color:var(--ink);border:0;font:700 14px var(--f-body);cursor:pointer;margin-left:auto}
+.console pre{margin:0;padding:16px;min-height:270px;font:500 12.5px/1.75 var(--f-mono);color:#B7BDC6;white-space:pre-wrap;word-break:break-all;overflow-x:auto}
+.console pre .ok{color:var(--gold)}
+.console pre .w{color:var(--white)}
+.console pre .m{color:#5E6673}
+
+footer{border-top:1px solid var(--line);padding-block:36px 48px;color:var(--ash);font-size:13px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+.foot b{font-family:var(--f-brand);font-weight:400;color:var(--bone);font-size:18px}
+.disc{margin-top:14px;max-width:60em;line-height:1.8}
+
+/* palette + toast */
+.scrim{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:14vh 16px 16px}
+.pal{width:min(520px,100%);background:var(--coal);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.pal input{width:100%;height:52px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--bone);padding:0 18px;font:500 16px var(--f-body);outline:none}
+.pal ul{list-style:none;margin:0;padding:6px}
+.pal li a{display:flex;justify-content:space-between;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--bone)}
+.pal li a span{color:var(--ash);font:600 12px var(--f-mono)}
+.pal li a.sel,.pal li a:hover{background:var(--slate)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:90;background:var(--bone);color:var(--ink);padding:12px 18px;border-radius:12px;font-weight:700;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.4);max-width:calc(100% - 32px)}
+
+@media (max-width:900px){
+  .pillnav{display:none}
+  .hero-grid,.split,.split.rev,.drawgrid,.vgrid{grid-template-columns:1fr}
+  .split.rev .field{order:2}
+  .hero{padding-block:40px 24px}
+  .mascot{width:min(100%,380px)}
+  .scrolly{height:auto}
+  .sticky{position:static;height:auto;padding-block:80px}
+  .cards{grid-template-columns:1fr}
+  .tgrid{grid-template-columns:1fr 1fr}
+  .t-token{grid-row:auto;grid-column:1/-1}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(3){padding-left:0}
+  .stat:nth-child(n+3){border-top:1px solid var(--line)}
+  .band .inner{padding-block:72px}
+  section.block{padding-block:80px}
+}
+@media (max-width:520px){
+  .brand small{display:none}
+  .ibtn kbd{display:none}
+  .tgrid{grid-template-columns:1fr}
+  .step{grid-template-columns:64px 1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pulse,.step.on i{animation:none}
+  .copy p.dim{opacity:1;filter:none}
+}
+</style>
+</head>
+<body>
+<div class="dots" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="锻造台 首页">
+      <canvas id="logo" width="80" height="80" aria-hidden="true"></canvas>
+      <b>锻造台</b><small>$FORGE</small>
+    </a>
+    <nav class="pillnav" aria-label="主导航">
+      <a href="#top" data-s="top" class="on">首页</a>
+      <a href="#forge" data-s="forge">工坊</a>
+      <a href="#lab" data-s="lab">实验室</a>
+      <a href="#draws" data-s="draws">抽奖</a>
+      <a href="#verify" data-s="verify">验证</a>
+    </nav>
+    <div class="tools">
+      <button class="ibtn" id="caBtn" type="button" title="合约地址">CA</button>
+      <a class="ibtn" href="https://x.com/ForgeBNBLive" target="_blank" rel="noopener" aria-label="X @ForgeBNBLive">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.1-6.7L5.4 22H2.3l7.7-8.8L2 2h6.7l4.6 6.1L18.9 2zm-1.2 18h1.8L7.4 3.9H5.5L17.7 20z"/></svg>
+      </a>
+      <button class="ibtn" id="kBtn" type="button" aria-label="搜索">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <kbd>⌘K</kbd>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow"><i></i>BNB Chain · BEP-20 · $FORGE</div>
+          <h1>每一块砖，<br>都在<em>链上</em>锻造。</h1>
+          <p class="lede">锻造台的愿景是把创作者手续费投入 BNB Chain 上的真实建设：由 AI 机器人「小锻」管理工坊，并用可验证的链上随机数，每次奖励一位持有者。</p>
+          <div class="cta">
+            <a class="btn gold" href="#forge">进入工坊 →</a>
+            <a class="btn ghost" href="#why">为什么重要</a>
+          </div>
+        </div>
+        <figure class="mascot" style="margin:0">
+          <canvas id="hero" aria-label="像素机器人小锻挥舞锤子锻造金砖"></canvas>
+          <figcaption><span class="pulse"></span>小锻 · 工坊管理员 · 在线</figcaption>
+        </figure>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num g">0.000</div><div class="lbl">金库 · BNB</div></div>
+        <div class="stat"><div class="num" id="countdown">--:--</div><div class="lbl">距下次预览抽奖</div></div>
+        <div class="stat"><div class="num">0</div><div class="lbl">已资助的构建任务</div></div>
+        <div class="stat"><div class="num">210/210</div><div class="lbl">工坊预览地块</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WALLET -->
+  <section class="scrolly" id="why" data-scrolly="addr">
+    <div class="sticky">
+      <div class="wrap split">
+        <div class="copy">
+          <h2>每个钱包，<br>都是一串地址。</h2>
+          <p data-at="0">0x 之后，四十个字符。它就是你在 BNB Chain 上的身份。</p>
+          <p data-at=".33">每一笔转账、每一次交互，都被写进区块，任何人都能查验。</p>
+          <p data-at=".66">账本对所有人公开，公平就不必靠口头承诺。</p>
+        </div>
+        <div class="matrix" aria-hidden="true">
+          <div class="cap">钱包地址 · 40 位十六进制</div>
+          <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+          <div class="hexrows" id="hex"></div>
+          <div class="meter"><div class="segs" id="segs"></div><div class="num" id="hexn">0</div></div>
+        </div>
+      </div>
+      <div class="wrap rulewrap"><div class="rule"><i></i></div></div>
+    </div>
+  </section>
+
+  <!-- GOLD BAND -->
+  <section class="band" data-scrolly="band">
+    <div class="wrap inner split">
+      <canvas id="anvil" aria-label="像素铁砧上锻造金砖"></canvas>
+      <div class="copy">
+        <span class="chip">BNB CHAIN · BEP-20</span>
+        <h2>所以我们锻造一样<br>无法伪造的东西。</h2>
+        <p data-at="0">合约部署在 BNB Chain，采用 BEP-20 标准，代码与交易全部公开。</p>
+        <p data-at=".3">交易手续费流入公开金库，每一笔进出都能在区块浏览器里查到。</p>
+        <p data-at=".55">这个预览让你体验构建流程，并重放每一次持有者抽选。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKSHOP -->
+  <section class="scrolly" id="forge" data-scrolly="field">
+    <div class="sticky">
+      <div class="wrap split">
+        <div class="copy">
+          <h2>这就是工坊。</h2>
+          <p data-at="0">工坊里的每一块地，对应一个面向 BNB Chain 生态的构建任务：工具、看板、小游戏、开源组件。</p>
+          <p data-at=".33">小锻负责审阅提案、按进度拨付资源，并把每一步记录在链上。</p>
+          <p data-at=".6">继续下滑，看 210 块预览地块一栋栋建起来。</p>
+        </div>
+        <div class="field">
+          <canvas id="field" aria-label="210 块像素工坊地块逐渐建起"></canvas>
+          <div class="fieldmeta"><span>已建成 <b id="built">0</b> / 210</span><span>预览 · 非实际资助</span></div>
+        </div>
+      </div>
+      <div class="wrap rulewrap"><div class="rule"><i></i></div></div>
+    </div>
+  </section>
+
+  <!-- LAB -->
+  <section class="block" id="lab">
+    <div class="wrap">
+      <div class="head">
+        <h2>走进锻造实验室。</h2>
+        <p>小锻每天在实验室里跑随机性实验，检验抽选所用的随机源是否均匀。下面是最近几次的模拟记录。</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <canvas data-lab="coin"></canvas>
+          <h3>区块哈希抛硬币<span class="tag">模拟</span></h3>
+          <div class="v"><span id="coinPct">50.6%</span> 正面 · 共 <span id="coinN">1000</span> 次</div>
+          <div class="meta"><span>sim-7…29f9</span><span>25 秒前</span></div>
+        </article>
+        <article class="card">
+          <canvas data-lab="dice"></canvas>
+          <h3>链上掷骰<span class="tag">模拟</span></h3>
+          <div class="v">均值 <span id="diceAvg">3.51</span> · 共 <span id="diceN">600</span> 次</div>
+          <div class="meta"><span>sim-5…dfe3</span><span>30 分钟前</span></div>
+        </article>
+        <article class="card">
+          <canvas data-lab="ent"></canvas>
+          <h3>熵值检测<span class="tag">模拟</span></h3>
+          <div class="v"><span id="entV">7.998</span> 比特 / 字节 · 理想值 8</div>
+          <div class="meta"><span>sim-2…e32b</span><span>1 小时前</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- DRAWS -->
+  <section class="block" id="draws" style="padding-top:20px">
+    <div class="wrap drawgrid">
+      <div>
+        <div class="head"><h2>然后，链上随机数<br>选出一位持有者。</h2></div>
+        <div class="steps" id="steps">
+          <button class="step on" type="button" data-i="0"><b>快照</b><span>所有持有者和余额被锁定。</span><i></i></button>
+          <button class="step" type="button" data-i="1"><b>承诺</b><span>请求随机数之前，先对名单做哈希并公开。</span><i></i></button>
+          <button class="step" type="button" data-i="2"><b>随机源</b><span>256 位新鲜随机数（演示模型，正式版接入 VRF）。</span><i></i></button>
+          <button class="step" type="button" data-i="3"><b>选取</b><span>随机数落在总供应量的某一点。持仓越多，占的线段越长。</span><i></i></button>
+        </div>
+        <p class="note" id="drawNote">示例抽奖 #9 正在计算…</p>
+      </div>
+      <div class="visual"><canvas id="drawviz" aria-label="抽奖流程示意"></canvas></div>
+    </div>
+  </section>
+
+  <!-- TREASURY -->
+  <section class="block" id="treasury" style="padding-top:40px">
+    <div class="wrap">
+      <div class="head">
+        <h2>公开的金库，示意的工坊。</h2>
+        <p>金库 BNB 显示所链接钱包在 BNB Chain 主网的确认余额，每两分钟刷新一次。预览分配与实际支付分开显示。</p>
+      </div>
+      <div class="tgrid">
+        <div class="tcard t-token">
+          <canvas id="tokbot" aria-hidden="true"></canvas>
+          <div class="k">发行代币</div>
+          <div><div class="tick">$FORGE</div><div style="font-weight:700;margin-top:6px">锻造台 FORGEPAD · 示意发行参数</div></div>
+          <dl><dt>总量</dt><dd>1,000,000,000</dd><dt>标准</dt><dd>BEP-20</dd><dt>网络</dt><dd>BNB Chain</dd><dt>合约</dt><dd>发行时公布</dd></dl>
+        </div>
+        <div class="tcard t-dark"><div class="k">金库</div><div class="big">0.000000000 BNB</div><div class="s"><span class="dotlive"></span>BNB Chain 主网 · 钱包未链接</div></div>
+        <div class="tcard t-slate"><div class="k">预览分配</div><div class="big" style="color:var(--gold)">1.906 BNB</div><div class="s">示意抽奖的分配额</div></div>
+        <div class="tcard t-white"><div class="k">已支付</div><div class="big">0.000 BNB</div><div class="s">预览模式下没有任何转账</div></div>
+        <div class="tcard t-line"><div class="k">小锻工时</div><div class="big">0 秒</div><div class="s">尚未计费的算力时间</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERIFY -->
+  <section class="block verify" id="verify">
+    <div class="wrap vgrid">
+      <div>
+        <h2>别信我们，<br>自己重放。</h2>
+        <p class="lede">选一次抽奖，浏览器会生成快照、校验哈希，再沿着随机位走到中奖地址。全程不到一秒。</p>
+        <div class="cta">
+          <button class="btn gold" type="button" id="runTop">验证一次抽奖</button>
+          <a class="btn ghost" href="#forge">查看工坊</a>
+        </div>
+      </div>
+      <div class="console">
+        <div class="ctl">
+          <label for="drawSel">抽奖编号</label>
+          <select id="drawSel"></select>
+          <button class="run" type="button" id="runBtn">运行验证</button>
+        </div>
+        <pre id="log"><span class="m">// 演示数据：持有者名单由浏览器本地生成，仅用于展示验证流程。
+// 点击「运行验证」开始。</span></pre>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot"><b>锻造台 FORGEPAD · $FORGE</b><span>运行于 BNB Chain · BEP-20</span></div>
+    <p class="disc">免责声明：锻造台是独立的社区项目，与 Binance 或 BNB Chain 官方没有任何关联、合作或背书。本页面为预览版本，所有抽奖、分配与实验数据均为示意，不代表实际资金流动，也不构成任何投资建议。加密资产价格波动剧烈，请自行研究并谨慎决策。</p>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="pal" role="dialog" aria-label="快速跳转">
+    <input id="palq" type="text" placeholder="跳转到…" autocomplete="off">
+    <ul id="pall"></ul>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(()=>{
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const C = {gold:'#F0B90B',deep:'#C99400',soft:'#FCD535',ink:'#0B0E11',coal:'#22262E',slate:'#2B3139',ash:'#848E9C',bone:'#EAECEF',white:'#FFFFFF'};
+const $ = s=>document.querySelector(s), $$ = s=>[...document.querySelectorAll(s)];
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+
+/* ---------- seeded rng ---------- */
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+/* ---------- canvas helper ---------- */
+const scenes=[];
+function scene(cv,draw){
+  const s={cv,draw,ctx:cv.getContext('2d'),w:0,h:0,vis:true};
+  s.fit=()=>{const r=cv.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);if(!r.width)return;s.w=r.width;s.h=r.height;cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);s.ctx.setTransform(d,0,0,d,0,0)};
+  s.fit();scenes.push(s);
+  if('IntersectionObserver' in window){new IntersectionObserver(e=>{s.vis=e[0].isIntersecting}).observe(cv)}
+  return s;
+}
+addEventListener('resize',()=>scenes.forEach(s=>s.fit()));
+function px(ctx,x,y,s,col,gap=1){ctx.fillStyle=col;ctx.fillRect(x,y,s-gap,s-gap)}
+
+/* ---------- robot sprite ---------- */
+const BOT=[
+"..........W...........",
+"..........K...........",
+"......GGGGGGGGGG......",
+"....GGGGGGGGGGGGGG....",
+"...GGGGDGGGGGGDGGGG...",
+"..DDDDDDDDDDDDDDDDDD..",
+"...WWWWWWWWWWWWWWWW...",
+"...WKKKKKKKKKKKKKKW...",
+"...WKKWWKKKKKKWWKKW...",
+"...WKKWWKKKKKKWWKKW...",
+"...WKKKKKKKKKKKKKKW...",
+"...WWWWWWKKKKWWWWWW...",
+"....WWWWWWWWWWWWWW....",
+".......SSSSSSSS.......",
+"...KKKKKKKKKKKKKKKK...",
+"..KKGGGGGGGGGGGGGGKK..",
+"SSKKGKKKWWWWWWKKKGKKSS",
+"SSKKGKKWWKKKKWWKKGKKSS",
+"SSKKGKKKWWWWWWKKKGKKSS",
+"SS.KGGGGGGGGGGGGGGK.SS",
+"WW.KKKKKKKKKKKKKKKK.WW",
+"....KKKK......KKKK....",
+"....SSSS......SSSS....",
+"...GGGGG......GGGGG..."];
+const PAL={G:C.gold,D:C.deep,K:C.coal,W:C.bone,S:C.ash};
+function drawBot(ctx,ox,oy,u,blink,gap=1){
+  BOT.forEach((row,y)=>{for(let x=0;x<row.length;x++){let ch=row[x];if(ch==='.')continue;
+    if(blink&&(y===8||y===9)&&ch==='W'&&x>3&&x<18)ch='K';
+    if(blink&&y===9&&(x===6||x===7||x===14||x===15))ch='W';
+    px(ctx,ox+x*u,oy+y*u,u,PAL[ch],gap)}});
+}
+function drawHammer(ctx,x,y,u,ang,gap=1,head=C.coal,band=C.gold){
+  ctx.save();ctx.translate(x,y);ctx.rotate(ang);
+  for(let i=0;i<7;i++)px(ctx,-u/2,-(i+1)*u,u,i%2?C.ash:C.bone,gap);
+  for(let r=0;r<3;r++)for(let c=-2;c<=2;c++)px(ctx,c*u-u/2,-(8+r)*u,u,r===1?band:head,gap);
+  ctx.restore();
+}
+
+/* ---------- logo ---------- */
+(()=>{const cv=$('#logo'),ctx=cv.getContext('2d');const u=3;const ox=(80-22*u)/2,oy=(80-24*u)/2+2;
+  BOT.forEach((row,y)=>{for(let x=0;x<row.length;x++){const ch=row[x];if(ch==='.')continue;ctx.fillStyle=ch==='G'||ch==='D'?C.ink:ch==='K'?C.ink:ch==='W'?C.white:'#5c4a00';ctx.fillRect(ox+x*u,oy+y*u,u,u)}});
+})();
+
+/* ---------- hero ---------- */
+const sparks=[];
+function spawnSparks(arr,x,y,n,cols){for(let i=0;i<n;i++){const a=-Math.PI/2+(Math.random()-.5)*2.4;const v=80+Math.random()*180;arr.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:.5+Math.random()*.5,col:cols[i%cols.length]})}}
+function stepSparks(ctx,arr,dt,s){for(let i=arr.length-1;i>=0;i--){const p=arr[i];p.life-=dt;if(p.life<=0){arr.splice(i,1);continue}p.vy+=420*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;ctx.globalAlpha=clamp(p.life*2);ctx.fillStyle=p.col;ctx.fillRect(Math.round(p.x),Math.round(p.y),s,s)}ctx.globalAlpha=1}
+function hammerAngle(ph){ // radians from vertical, clockwise
+  if(ph<.62){const e=ph/.62;return -.15-.75*Math.sin(e*Math.PI/2)}
+  if(ph<.72){const e=(ph-.62)/.1;return -.9+3.1*e*e}
+  if(ph<.8)return 2.2;
+  const e=(ph-.8)/.2;return 2.2-2.35*(1-Math.pow(1-e,2));
+}
+let lastPh={hero:0,anvil:0};
+const hero=scene($('#hero'),(s,t,dt)=>{
+  const {ctx,w,h}=s;ctx.clearRect(0,0,w,h);
+  const u=Math.max(4,Math.floor(w/44));
+  const cx=w*.44,ox=Math.round(cx-11*u),bob=RM?0:Math.round(Math.sin(t*2.2)*u*.5),oy=Math.round(h*.5-12*u)+bob;
+  const g=ctx.createRadialGradient(cx,h*.5,10,cx,h*.5,w*.48);g.addColorStop(0,'rgba(240,185,11,.22)');g.addColorStop(1,'rgba(240,185,11,0)');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  // orbit
+  const N=76,rx=w*.44,ry=w*.11,tilt=-.22;
+  const orb=(front)=>{for(let i=0;i<N;i++){const a=i/N*Math.PI*2+t*.35;const z=Math.sin(a);if((z>0)!==front)continue;
+    let x=Math.cos(a)*rx,y=z*ry;const X=cx+x*Math.cos(tilt)-y*Math.sin(tilt),Y=h*.52+x*Math.sin(tilt)+y*Math.cos(tilt);
+    const sz=front?u*.55:u*.4;ctx.globalAlpha=front?.95:.35;ctx.fillStyle=i%9===0?C.white:(i%3?C.gold:C.deep);ctx.fillRect(Math.round(X),Math.round(Y),sz,sz)}ctx.globalAlpha=1};
+  orb(false);
+  // ground shadow
+  ctx.fillStyle='rgba(0,0,0,.35)';for(let x=2;x<20;x++)ctx.fillRect(ox+x*u,Math.round(h*.5-12*u)+24*u+u*.4,u-1,u*.4);
+  // brick target
+  const ph=RM?.85:(t%1.7)/1.7, ang=hammerAngle(ph)*.745;
+  const bx=ox+26*u,by=Math.round(h*.5-12*u)+21*u;const hot=ph>.72&&ph<.9;
+  for(let r=0;r<3;r++)for(let c=0;c<5;c++)px(ctx,bx+c*u,by+r*u,u,hot?(r===0?C.white:C.soft):((r+c)%3===0?C.deep:C.gold));
+  drawBot(ctx,ox,oy,u,!RM&&(t%3.6)<.14);
+  drawHammer(ctx,ox+21*u,oy+20*u,u,ang);
+  if(!RM&&lastPh.hero<.72&&ph>=.72)spawnSparks(sparks,bx+2.5*u,by,18,[C.white,C.gold,C.soft]);
+  lastPh.hero=ph;
+  orb(true);
+  stepSparks(ctx,sparks,dt,Math.max(2,u*.5));
+});
+
+/* ---------- countdown ---------- */
+function tick(){const d=new Date();const left=3600-(d.getMinutes()*60+d.getSeconds());$('#countdown').textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(left%60).padStart(2,'0')}
+tick();setInterval(tick,1000);
+
+/* ---------- hex matrix ---------- */
+const HEX='0123456789abcdef';const target=Array.from({length:40},()=>HEX[Math.random()*16|0]);
+const gold=new Set();while(gold.size<7)gold.add(Math.random()*40|0);
+const hexEl=$('#hex');let spans=[];
+for(let r=0;r<4;r++){const row=document.createElement('div');if(r===0){const p=document.createElement('b');p.className='pre';p.textContent='0x';row.appendChild(p)}else{const p=document.createElement('b');p.className='pre';p.style.opacity='0';p.textContent='0x';row.appendChild(p)}
+  for(let c=0;c<10;c++){const s=document.createElement('span');s.textContent=HEX[Math.random()*16|0];row.appendChild(s);spans.push(s)}hexEl.appendChild(row)}
+const segs=$('#segs');for(let i=0;i<30;i++)segs.appendChild(document.createElement('b'));
+let hexP=0;
+function renderHex(){const n=Math.round(hexP*40);spans.forEach((s,i)=>{if(i<n){s.textContent=target[i];s.className='lock'+(gold.has(i)?' au':'')}else{s.className='';if(!RM)s.textContent=HEX[Math.random()*16|0]}});
+  [...segs.children].forEach((b,i)=>b.classList.toggle('on',i<hexP*30));$('#hexn').textContent=n}
+setInterval(renderHex,90);renderHex();
+
+/* ---------- anvil band ---------- */
+const ANV=[
+"KKKKKKKKKKKKKKKKKKK....",
+".KKKKKKKKKKKKKKKKKKKKKK",
+"..KKKKKKKKKKKKKKKKKK...",
+"......KKKKKKKKK........",
+".......KKKKKKK.........",
+".......KKKKKKK.........",
+"......KKKKKKKKK........",
+"....KKKKKKKKKKKKK......",
+"...KKKKKKKKKKKKKKK....."];
+const sparks2=[];
+scene($('#anvil'),(s,t,dt)=>{
+  const {ctx,w,h}=s;ctx.clearRect(0,0,w,h);
+  const u=Math.max(4,Math.floor(w/36));const ax=Math.round(w*.58-11.5*u),ay=Math.round(h*.62);
+  ANV.forEach((row,y)=>{for(let x=0;x<row.length;x++)if(row[x]==='K')px(ctx,ax+x*u,ay+y*u,u,C.ink,1)});
+  const ph=RM?.85:((t+.6)%1.7)/1.7;const hot=ph>.72&&ph<.95;
+  // glowing brick
+  for(let r=0;r<2;r++)for(let c=0;c<6;c++)px(ctx,ax+(6+c)*u,ay-(2-r)*u,u,hot?C.white:(r?'#fff4c2':C.white),1);
+  // floor
+  ctx.fillStyle='rgba(11,14,17,.25)';for(let x=0;x<w;x+=u)ctx.fillRect(x,ay+9*u+u*.6,u-1,2);
+  // hammer: pivot to the upper right
+  const rot=-1.98+(2.2-hammerAngle(ph))*.6;
+  const hx=ax+17*u,hy=ay-6*u;
+  ctx.save();ctx.translate(hx,hy);ctx.rotate(rot);
+  for(let i=0;i<7;i++)px(ctx,-u/2,-(i+1)*u,u,i%2?C.slate:C.ink,1);
+  for(let r=0;r<3;r++)for(let c=-2;c<=2;c++)px(ctx,c*u-u/2,-(8+r)*u,u,r===1?C.white:C.ink,1);
+  ctx.restore();
+  if(!RM&&lastPh.anvil<.72&&ph>=.72)spawnSparks(sparks2,ax+9*u,ay-2*u,22,[C.white,C.ink,C.white]);
+  lastPh.anvil=ph;
+  stepSparks(ctx,sparks2,dt,Math.max(3,u*.45));
+  // small robot spectator
+  const su=Math.max(2,Math.floor(u/2.6));ctx.globalAlpha=1;
+  BOT.forEach((row,y)=>{for(let x=0;x<row.length;x++){const ch=row[x];if(ch==='.')continue;ctx.fillStyle=ch==='W'?C.white:C.ink;ctx.fillRect(Math.round(w*.06)+x*su,ay+9*u-24*su+y*su+(RM?0:Math.round(Math.sin(t*3)*su*.6)),su,su)}});
+});
+
+/* ---------- field ---------- */
+const fr=rng(2026);const PLOTS=Array.from({length:210},(_,i)=>{const c=i%15,r=Math.floor(i/15);const d=Math.hypot(c-7,(r-6.5)*1.1)/10;return{c,r,delay:clamp(d*.55+fr()*.3,0,.85),hmax:3+Math.floor(fr()*5),roof:fr()<.28?C.gold:(fr()<.5?C.bone:C.ash),flag:fr()<.12,seed:fr()*10}});
+let fieldP=0;
+scene($('#field'),(s,t)=>{
+  const {ctx,w,h}=s;ctx.clearRect(0,0,w,h);
+  const cw=w/15,ch=h/14,u=Math.max(2,Math.floor(cw/9));let built=0;
+  // scan rail
+  ctx.fillStyle='rgba(132,142,156,.25)';ctx.fillRect(0,0,2,h);ctx.fillStyle=C.gold;ctx.fillRect(0,0,2,h*fieldP);
+  PLOTS.forEach(p=>{const x0=Math.round(p.c*cw+cw/2-3*u),base=Math.round(p.r*ch+ch-u*1.5);
+    const k=clamp((fieldP*1.25-p.delay)/.25);const hh=Math.round(k*p.hmax);
+    for(let i=0;i<5;i++)px(ctx,x0+i*u+u/2,base,u,k>0?C.slate:'rgba(132,142,156,.3)',1);
+    if(k>=1)built++;
+    for(let y=1;y<=hh;y++){for(let x=0;x<4;x++){let col=(x===0||x===3)?C.ash:C.coal;
+      if((x===1||x===2)&&y%2===0)col=(Math.sin(t*2+p.seed+x*y)>.2)?C.gold:C.slate;
+      if(y===hh)col=p.roof;px(ctx,x0+x*u+u,base-y*u,u,col,1)}}
+    if(k>=1&&p.flag){px(ctx,x0+3*u,base-(hh+1)*u,u,C.ash,1);px(ctx,x0+3*u,base-(hh+2)*u,u,C.ash,1);px(ctx,x0+4*u,base-(hh+2)*u,u,C.gold,1)}
+    if(k>0&&k<1){px(ctx,x0+2*u,base-(hh+1)*u,u,(Math.floor(t*6)%2)?C.white:C.gold,1)}
+  });
+  $('#built').textContent=built;
+});
+
+/* ---------- lab ---------- */
+let coin={n:1000,h:506},dice={n:600,sum:2106},ent=7.998;
+$$('[data-lab]').forEach(cv=>{const kind=cv.dataset.lab;const bars=Array.from({length:16},()=>.85+Math.random()*.15);
+  scene(cv,(s,t)=>{const {ctx,w,h}=s;ctx.clearRect(0,0,w,h);const u=Math.max(3,Math.floor(h/26));
+    if(kind==='coin'){const R=8,sx=RM?1:Math.cos(t*3.2);const face=sx>=0;const cx=w/2,cy=h/2;
+      for(let y=-R;y<=R;y++)for(let x=-R;x<=R;x++){const d=Math.hypot(x,y);if(d>R+.3)continue;const X=cx+x*u*Math.abs(sx)-u/2,Y=cy+y*u-u/2;
+        let col=face?(d>R-1.2?C.deep:C.gold):(d>R-1.2?C.ash:C.bone);
+        if(face&&((Math.abs(x)<=1&&Math.abs(y)<=4)||(y===-4&&x>=-1&&x<=3)||(y===0&&x>=-1&&x<=2)))col=C.ink;
+        ctx.fillStyle=col;ctx.fillRect(Math.round(X),Math.round(Y),Math.max(1,Math.ceil(u*Math.abs(sx))-1),u-1)}
+      ctx.fillStyle=C.ash;ctx.font='600 11px ui-monospace,monospace';ctx.fillText(face?'正 ·  H':'反 ·  T',10,h-10)}
+    if(kind==='dice'){const v=RM?5:1+(Math.floor(t*2.2)*7)%6;const S=13,cx=w/2-S*u/2,cy=h/2-S*u/2;
+      for(let y=0;y<S;y++)for(let x=0;x<S;x++){const edge=x===0||y===0||x===S-1||y===S-1;px(ctx,cx+x*u,cy+y*u,u,edge?C.ash:C.bone,1)}
+      const P={1:[[6,6]],2:[[3,3],[9,9]],3:[[3,3],[6,6],[9,9]],4:[[3,3],[9,3],[3,9],[9,9]],5:[[3,3],[9,3],[6,6],[3,9],[9,9]],6:[[3,3],[9,3],[3,6],[9,6],[3,9],[9,9]]}[v];
+      P.forEach(([x,y])=>{for(let a=-1;a<=0;a++)for(let b=-1;b<=0;b++)px(ctx,cx+(x+a)*u+u/2,cy+(y+b)*u+u/2,u,v===1?C.gold:C.ink,1)})}
+    if(kind==='ent'){const n=bars.length,bw=(w-24)/n;bars.forEach((b,i)=>{const val=RM?b:clamp(b+Math.sin(t*3+i*1.7)*.05,.6,1);const hh=Math.round(val*(h-30)/u)*u;
+      for(let y=0;y<hh;y+=u)for(let x=0;x<bw-2;x+=u)px(ctx,12+i*bw+x,h-14-y-u,u,y>hh-u*2?C.white:(i%4===0?C.deep:C.gold),1)});
+      ctx.fillStyle='rgba(234,236,239,.5)';ctx.fillRect(12,h-14-(h-30),w-24,1)}
+  })});
+if(!RM)setInterval(()=>{for(let i=0;i<3;i++){coin.n++;if(Math.random()<.5)coin.h++;dice.n++;dice.sum+=1+(Math.random()*6|0)}
+  ent=7.996+Math.random()*.003;$('#coinPct').textContent=(coin.h/coin.n*100).toFixed(1)+'%';$('#coinN').textContent=coin.n;$('#diceAvg').textContent=(dice.sum/dice.n).toFixed(2);$('#diceN').textContent=dice.n;$('#entV').textContent=ent.toFixed(3)},2000);
+
+/* ---------- holders + sha ---------- */
+const SUPPLY=1000000000n;
+function holders(n){const r=rng(n*7919+13);const k=48;const ws=Array.from({length:k},()=>Math.pow(r(),2.6)+.004);const sum=ws.reduce((a,b)=>a+b,0);
+  let out=ws.map(w=>({addr:'0x'+Array.from({length:40},()=>HEX[r()*16|0]).join(''),bal:BigInt(Math.floor(w/sum*1e9))}));
+  const tot=out.reduce((a,b)=>a+b.bal,0n);out[k-1].bal+=SUPPLY-tot;return out}
+async function sha(str){if(!(window.crypto&&crypto.subtle))throw new Error('浏览器不支持 SHA-256');const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function draw(n){const hs=holders(n);const snap=JSON.stringify(hs.map(h=>[h.addr,h.bal.toString()]));const commit=await sha(snap);const bits=await sha(commit+':draw:'+n);
+  const point=BigInt('0x'+bits.slice(0,16))%SUPPLY;let acc=0n,idx=0;for(;idx<hs.length;idx++){if(point<acc+hs[idx].bal)break;acc+=hs[idx].bal}
+  return{hs,commit,bits,point,idx,win:hs[idx]}}
+const short=a=>a.slice(0,6)+'…'+a.slice(-4);
+const fmt=b=>b.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+
+/* ---------- draw viz ---------- */
+let D=null,stepI=0,stepT=0;
+const vz=scene($('#drawviz'),(s,t,dt)=>{
+  const {ctx,w,h}=s;ctx.clearRect(0,0,w,h);if(!D)return;stepT+=dt;
+  const u=Math.max(3,Math.floor(h/48));const top=h*.12,bh=h*.22;
+  // supply line bars
+  let x=0;const tot=Number(SUPPLY);
+  D.hs.forEach((hd,i)=>{const bw=Number(hd.bal)/tot*w;const k=stepI===0?clamp(stepT*2.5-i*.03):1;
+    for(let y=0;y<bh*k;y+=u){ctx.fillStyle=stepI===3&&i===D.idx?C.gold:(i%2?C.bone:C.ash);ctx.globalAlpha=stepI===1||stepI===2?.35:(stepI===3&&i!==D.idx?.45:1);ctx.fillRect(x,top+bh-y-u,Math.max(1,bw-1),u-1)}x+=bw});
+  ctx.globalAlpha=1;
+  ctx.fillStyle=C.ash;ctx.font='600 11px ui-monospace,monospace';ctx.fillText('0',0,top+bh+16);const lbl='1,000,000,000 $FORGE';ctx.fillText(lbl,w-ctx.measureText(lbl).width,top+bh+16);
+  // lower panel
+  const ly=h*.55;
+  if(stepI===0){ctx.fillStyle=C.bone;ctx.font='700 13px ui-monospace,monospace';ctx.fillText('快照 · '+D.hs.length+' 位持有者已锁定',0,ly+20)}
+  if(stepI>=1){const shown=Math.floor(clamp(stepT*1.4)*64);ctx.font='700 '+Math.max(11,Math.floor(w/52))+'px ui-monospace,monospace';ctx.fillStyle=C.ash;ctx.fillText('commit sha256',0,ly+10);
+    ctx.fillStyle=stepI===1?C.gold:C.bone;ctx.fillText((stepI===1?D.commit.slice(0,shown):D.commit).slice(0,32),0,ly+30);ctx.fillText((stepI===1?D.commit.slice(0,shown):D.commit).slice(32),0,ly+48)}
+  if(stepI>=2){const cols=64,rows=4,cs=w/cols;const bin=[...D.bits].map(c=>parseInt(c,16).toString(2).padStart(4,'0')).join('');
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const i=r*cols+c;const settled=stepI>2||stepT*1.2>i/256;const b=settled?bin[i]==='1':Math.random()<.5;
+      ctx.fillStyle=b?(stepI===2?C.gold:C.bone):C.slate;ctx.fillRect(c*cs,ly+64+r*cs*1.2,Math.max(1,cs-1),Math.max(1,cs-1))}}
+  if(stepI===3){const k=clamp(stepT*1.3);const e=1-Math.pow(1-k,3);const px_=Number(D.point)/tot*w*e;
+    ctx.fillStyle=C.gold;ctx.fillRect(px_-1,top-14,2,bh+14);ctx.beginPath();ctx.moveTo(px_-6,top-20);ctx.lineTo(px_+6,top-20);ctx.lineTo(px_,top-10);ctx.fill()}
+});
+function setStep(i){stepI=i;stepT=0;$$('.step').forEach((b,j)=>{b.classList.toggle('on',j===i);const bar=b.querySelector('i');bar.style.animation='none';void bar.offsetWidth;bar.style.animation=''})}
+$$('.step').forEach(b=>b.addEventListener('click',()=>{setStep(+b.dataset.i);autoStep=false}));
+let autoStep=!RM;setInterval(()=>{if(autoStep)setStep((stepI+1)%4)},3200);
+draw(9).then(r=>{D=r;$('#drawNote').innerHTML='示例抽奖 #9 选中 <b>'+short(r.win.addr)+'</b> · 未发生任何实际付款。'}).catch(e=>{$('#drawNote').textContent='示例抽奖无法计算：'+e.message});
+
+/* ---------- verify ---------- */
+const sel=$('#drawSel');for(let i=1;i<=12;i++){const o=document.createElement('option');o.value=i;o.textContent='#'+i;if(i===9)o.selected=true;sel.appendChild(o)}
+const log=$('#log');let busy=false;
+async function verify(){if(busy)return;busy=true;const n=+sel.value;const t0=performance.now();log.innerHTML='';
+  const line=(html)=>new Promise(r=>{log.insertAdjacentHTML('beforeend',html+'\n');setTimeout(r,RM?0:140)});
+  try{const r=await draw(n);const ms=(performance.now()-t0).toFixed(1);
+    await line('<span class="m">$ forge verify --draw '+n+'</span>');
+    await line('下载快照 #'+n+' · '+r.hs.length+' 位持有者 · 总量 '+fmt(SUPPLY)+' $FORGE');
+    await line('快照哈希  <span class="w">'+r.commit+'</span>');
+    await line('公开承诺  <span class="w">'+r.commit+'</span>');
+    await line('<span class="ok">✓ 哈希一致，名单在请求随机数前已锁定</span>');
+    await line('随机位（演示模型）  <span class="w">'+r.bits+'</span>');
+    await line('落点  '+fmt(r.point)+' / '+fmt(SUPPLY));
+    await line('沿持仓线段累计 … 第 '+(r.idx+1)+' 段');
+    await line('<span class="ok">✓ 中奖地址 '+r.win.addr+'</span>');
+    await line('持仓 '+fmt(r.win.bal)+' $FORGE · 中奖概率 '+(Number(r.win.bal)/1e7).toFixed(2)+'%');
+    await line('<span class="m">计算用时 '+ms+' 毫秒 · 演示数据，未发生任何付款</span>');
+  }catch(e){log.textContent='验证失败：'+e.message+'。请使用支持 Web Crypto 的现代浏览器重试。'}
+  busy=false}
+$('#runBtn').addEventListener('click',verify);
+$('#runTop').addEventListener('click',()=>{$('#verify').scrollIntoView({behavior:RM?'auto':'smooth'});verify()});
+
+/* ---------- token card bot ---------- */
+scene($('#tokbot'),(s,t)=>{const {ctx,w,h}=s;ctx.clearRect(0,0,w,h);const u=Math.floor(w/26);
+  BOT.forEach((row,y)=>{for(let x=0;x<row.length;x++){const ch=row[x];if(ch==='.')continue;ctx.fillStyle=ch==='W'?C.white:(ch==='G'||ch==='D')?'#5c4a00':C.ink;
+    if(!RM&&(t%3.6)<.14&&(y===8||y===9)&&ch==='W'&&x>3&&x<18)ctx.fillStyle=C.ink;ctx.fillRect(2*u+x*u,u+y*u,u-1,u-1)}})});
+
+/* ---------- scroll progress ---------- */
+const narrow=()=>matchMedia('(max-width:900px)').matches;
+function prog(el){const r=el.getBoundingClientRect(),vh=innerHeight;
+  if(el.dataset.scrolly!=='band'&&!narrow()){return clamp(-r.top/(r.height-vh))}
+  return clamp((vh*.85-r.top)/(r.height*.9))}
+function onScroll(){
+  $$('[data-scrolly]').forEach(el=>{const p=prog(el);const k=el.dataset.scrolly;
+    if(k==='addr')hexP=clamp(p*1.15);
+    if(k==='field')fieldP=p;
+    el.querySelectorAll('.copy p[data-at]').forEach(q=>q.classList.toggle('dim',p<+q.dataset.at-.001&&+q.dataset.at>0));
+    const rule=el.querySelector('.rule i');if(rule)rule.style.width=(p*100)+'%'});
+  // nav state
+  let cur='top';['why','forge','lab','draws','verify'].forEach(id=>{const e=document.getElementById(id);if(e&&e.getBoundingClientRect().top<innerHeight*.4)cur=id});
+  if(cur==='why')cur='top';
+  $$('.pillnav a').forEach(a=>a.classList.toggle('on',a.dataset.s===cur));
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ---------- loop ---------- */
+let last=performance.now();
+function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;const t=now/1000;scenes.forEach(s=>{if(s.vis&&s.w)s.draw(s,t,dt)});if(!RM)requestAnimationFrame(loop)}
+if(RM){setTimeout(()=>scenes.forEach(s=>s.w&&s.draw(s,0,0)),300);setInterval(()=>scenes.forEach(s=>s.w&&s.draw(s,0,0)),1000)}else requestAnimationFrame(loop);
+document.fonts&&document.fonts.ready.then(()=>scenes.forEach(s=>s.fit()));
+
+/* ---------- toast / CA / palette ---------- */
+let tt;function toast(m){const e=$('#toast');e.textContent=m;e.hidden=false;clearTimeout(tt);tt=setTimeout(()=>e.hidden=true,2400)}
+$('#caBtn').addEventListener('click',()=>toast('$FORGE 合约地址将在发行时公布，请只认官方渠道。'));
+const ITEMS=[['首页','#top','HOME'],['为什么重要','#why','WHY'],['工坊','#forge','FORGE'],['实验室','#lab','LAB'],['抽奖流程','#draws','DRAWS'],['金库','#treasury','BNB'],['验证抽奖','#verify','VERIFY']];
+const scrim=$('#scrim'),q=$('#palq'),ul=$('#pall');let selI=0,filtered=ITEMS;
+function renderPal(){const v=q.value.trim().toLowerCase();filtered=ITEMS.filter(i=>!v||i[0].includes(v)||i[2].toLowerCase().includes(v));selI=Math.min(selI,Math.max(0,filtered.length-1));
+  ul.innerHTML=filtered.map((i,j)=>'<li><a href="'+i[1]+'" class="'+(j===selI?'sel':'')+'">'+i[0]+'<span>'+i[2]+'</span></a></li>').join('')||'<li style="padding:12px;color:var(--ash)">没有匹配的板块</li>'}
+function openPal(){scrim.hidden=false;q.value='';selI=0;renderPal();q.focus()}
+function closePal(){scrim.hidden=true}
+$('#kBtn').addEventListener('click',openPal);
+scrim.addEventListener('click',e=>{if(e.target===scrim||e.target.closest('a'))closePal()});
+q.addEventListener('input',renderPal);
+addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();scrim.hidden?openPal():closePal()}
+  if(scrim.hidden)return;if(e.key==='Escape')closePal();
+  if(e.key==='ArrowDown'){selI=Math.min(filtered.length-1,selI+1);renderPal();e.preventDefault()}
+  if(e.key==='ArrowUp'){selI=Math.max(0,selI-1);renderPal();e.preventDefault()}
+  if(e.key==='Enter'&&filtered[selI]){location.hash='';document.querySelector(filtered[selI][1]).scrollIntoView({behavior:RM?'auto':'smooth'});closePal()}});
+})();
+</script>
+</body>
+</html>
